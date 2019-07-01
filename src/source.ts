@@ -1,4 +1,4 @@
-import { ISessionSetup } from "sink";
+import { ISessionSetup } from "./sink";
 import xs, { Stream } from "xstream";
 import { adapt } from "@cycle/run/lib/adapt";
 import { Session, ISubscribeOptions, ICallOptions } from "autobahn";
