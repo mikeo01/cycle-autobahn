@@ -17,5 +17,5 @@ export function makeWAMPDriver(opts: IConnectionOptions) {
 
         // Expose source for interacting with autobahn's API
         return source(producer$);
-    };
+    } as any;
 }
