@@ -2,7 +2,7 @@ import { ISessionSetup } from "sink";
 import xs, { Stream } from "xstream";
 import { adapt } from "@cycle/run/lib/adapt";
 import { Session, ISubscribeOptions, ICallOptions } from "autobahn";
-import { isError, SessionError } from "session";
+import { isError, SessionError } from "./session";
 
 // WAMP source signature
 export interface WAMPSource {

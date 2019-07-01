@@ -1,6 +1,6 @@
 import xs, { Stream } from "xstream";
 import { Connection, IConnectionOptions, Session } from "autobahn";
-import { ISessionSetup, handle } from "sink";
+import { ISessionSetup, handle } from "./sink";
 
 // Producer
 const producer$ = xs.create()

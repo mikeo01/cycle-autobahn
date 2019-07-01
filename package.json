@@ -4,7 +4,6 @@
   "description": "Cycle.js driver wrapper around autobahn",
   "main": "src/index.ts",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --env=production",
     "test": "nyc mocha --require tsconfig-paths/register --require ts-node/register test/**/*.ts",
     "test-watch": "mocha --require tsconfig-paths/register --require ts-node/register --watch --watch-extensions ts test/**/*.ts"
   },

@@ -1,8 +1,8 @@
 import { IConnectionOptions } from 'autobahn';
 import xs, { Stream } from 'xstream';
 import { ISessionSetup, handle } from 'sink';
-import { source } from 'source';
-import { connect } from 'session';
+import { source } from './source';
+import { connect } from './session';
 
 /**
  * Makes WAMP driver and offloads to autobahn's API
