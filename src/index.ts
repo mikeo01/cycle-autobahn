@@ -3,6 +3,7 @@ import xs, { Stream } from 'xstream';
 import { ISessionSetup, handle } from './sink';
 import { source } from './source';
 import { connect } from './session';
+import { adapt } from '@cycle/run/lib/adapt';
 
 /**
  * Makes WAMP driver and offloads to autobahn's API
