@@ -29,20 +29,20 @@
     "@types/autobahn": "^18.10.0",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.0.10",
+    "@types/node": "^12.6.8",
     "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "ts-loader": "^6.0.4",
     "ts-node": "^8.3.0",
+    "tsc": "^1.20150623.0",
     "tsconfig-paths": "^3.8.0",
-    "typescript": "^3.5.2",
-    "tsc": "^1.20150623.0"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "@cycle/run": "^5.2.0",
-    "autobahn": "^19.6.2",
+    "autobahn": "^19.7.3",
     "xstream": "^11.11.0"
   }
 }
