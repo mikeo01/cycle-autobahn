@@ -25,8 +25,9 @@ describe('WAMP', function () {
             .addListener({
                 next: event => {
                     expect(event.pop() === mockTopicValue);
+
+                    done();
                 },
-                complete: () => done(),
                 error: e => done(e)
             });
     });
@@ -38,7 +39,9 @@ describe('WAMP', function () {
                 next: result => {
                     expect(result === 3);
                 },
-                complete: () => done(),
+                complete: () => {
+                    done();
+                },
                 error: e => done(e)
             });
     });

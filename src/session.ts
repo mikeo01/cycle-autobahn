@@ -9,56 +9,50 @@ const producer$ = xs.create()
         details: null
     });
 
-// Session error stemming from autobahn
-export interface SessionError {
-    reason: any;
-    details: any;
-}
-
-/**
- * Defined guard for determining error stemming from autobahn
- * @param sink SessionError
- */
-export function isError(session: Session | SessionError): session is SessionError {
-    return (<SessionError>session).reason !== undefined;
-}
-
 /**
  * Default session creation for autobahn
  * @param sinks$ Stream<ISessionSetup>
  * @param opts IConnectionOptions
- * @returns Stream<Session|SessionError>
+ * @returns Stream<Session>
  */
-export const connect = (sinks$: Stream<ISessionSetup>, opts: IConnectionOptions): Stream<Session | SessionError> => {
+export const connect = (sinks$: Stream<ISessionSetup>, opts: IConnectionOptions): Stream<Session> => {
     // Create WAMP client connection
     const client = new Connection(opts);
 
     // Session handling
     client.onopen = (session: Session) => {
-        // Listen to sink streams, manage publishing and RPC registrations
-        sinks$.addListener({
-            next: sink => handle(sink, session, client)
-        });
+        // Browser
+        if (typeof localStorage != 'undefined') {
+            localStorage.setItem('autobahn_connected', 'true');
+        }
+
+        try {
+            // Listen to sink streams, manage publishing and RPC registrations
+            sinks$.addListener({
+                next: sink => handle(sink, session, client)
+            });
+        } catch (e) {
+            console.error(e);
+        }
 
         // Imitate session stream for source
-        producer$.imitate(xs.of(session));
+        producer$.shamefullySendNext(session);
     };
 
-    // Error handling
+    // Closed connections
     client.onclose = (reason, details) => {
-        console.log(reason, details.reason);
+        // Browser
+        if (typeof localStorage != 'undefined') {
+            localStorage.setItem('autobahn_connected', 'false');
+        }
+        
+        console.error(reason, details);
 
-        // Inject error into producer for error handling
-        producer$.imitate(xs.of({
-            reason, details
-        }));
-
-        // Re-try
         return false;
     };
 
     // Open connection to WAMP server
     client.open();
 
-    return producer$ as Stream<Session | SessionError>;
+    return producer$ as Stream<Session>;
 }

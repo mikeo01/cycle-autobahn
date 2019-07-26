@@ -1,5 +1,6 @@
 import xs, { Stream } from "xstream";
-import debounce from "xstream/extra/debounce";
+import delay from "xstream/extra/delay";
+import { IPublishOptions } from "autobahn";
 
 /**
  * Args value
@@ -10,19 +11,16 @@ export const mockTopicValue = 'some random information to assert against';
  * Publish to topic
  */
 const publish = () =>
-    // Our publish request (add debounce so we can register first)
-    xs.create({
-        start: listener => listener.next({
-            publish: {
-                topic: topic,
-                args: [mockTopicValue],
-                options: {
-                    exclude_me: false
-                }
+    // Our publish request (add delay so we can register first)
+    xs.of({
+        publish: {
+            topic: topic,
+            args: [mockTopicValue],
+            options: {
+                exclude_me: false
             }
-        }),
-        stop: () => undefined
-    }).compose(debounce(100)) as Stream<any>;
+        }
+    }).compose(delay(750)) as Stream<IPublishOptions>;
 
 /**
  * Register a new remote procedure
@@ -34,7 +32,16 @@ const rpc = () =>
             name: rpcName,
             procedure: (args) => args[0] + args[1]
         }
-    })
+    });
+
+/**
+ * Close after x has passed (otherwise tests stall)
+ */
+const close = () =>
+    // Our RPC register
+    xs.of({
+        close: true
+    }).compose(delay(1500));
 
 /**
  * Default test topic
@@ -51,5 +58,6 @@ export const rpcName = 'local.crossbar.add';
  */
 export const setup = () => xs.merge(
     publish(),
-    rpc()
+    rpc(),
+    close()
 );
